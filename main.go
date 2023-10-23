@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
 	"github.com/f3rcho/twitterGo/awsgo"
+	"github.com/f3rcho/twitterGo/secretmanager"
 )
 
 func main() {
@@ -27,6 +28,19 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			},
 		}
 	}
+
+	SecretModel, err := secretmanager.GetSecret(os.Getenv("SecretName"))
+	if err != nil {
+		res = &events.APIGatewayProxyResponse{
+			StatusCode: 500,
+			Body:       "Error reading secret" + err.Error(),
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+		}
+		return res, nil
+	}
+
 	return res, nil
 }
 
