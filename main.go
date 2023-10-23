@@ -9,6 +9,7 @@ import (
 	lambda "github.com/aws/aws-lambda-go/lambda"
 	"github.com/f3rcho/twitterGo/awsgo"
 	"github.com/f3rcho/twitterGo/db"
+	"github.com/f3rcho/twitterGo/handlers"
 	"github.com/f3rcho/twitterGo/models"
 	"github.com/f3rcho/twitterGo/secretmanager"
 )
@@ -17,6 +18,9 @@ func main() {
 	lambda.Start(ExecuteLambda)
 
 }
+
+const KEY_HEADER = "Content-Type"
+const VALUE_HEADER = "application/json"
 
 func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
@@ -27,7 +31,7 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 400,
 			Body:       "Missing parameters SecretName, BucketName, UrlPrefix",
 			Headers: map[string]string{
-				"Content-Type": "application/json",
+				KEY_HEADER: VALUE_HEADER,
 			},
 		}
 	}
@@ -38,7 +42,7 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 500,
 			Body:       "Error reading secret" + err.Error(),
 			Headers: map[string]string{
-				"Content-Type": "application/json",
+				KEY_HEADER: VALUE_HEADER,
 			},
 		}
 		return res, nil
@@ -62,12 +66,25 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 500,
 			Body:       "Error connecting to database" + err.Error(),
 			Headers: map[string]string{
-				"Content-Type": "application/json",
+				KEY_HEADER: VALUE_HEADER,
 			},
 		}
 		return res, nil
 	}
-	return res, nil
+
+	responseAPI := handlers.Handlers(awsgo.Ctx, request)
+	if responseAPI.CustomResponse == nil {
+		res = &events.APIGatewayProxyResponse{
+			StatusCode: responseAPI.Status,
+			Body:       responseAPI.Message,
+			Headers: map[string]string{
+				KEY_HEADER: VALUE_HEADER,
+			},
+		}
+		return res, nil
+	} else {
+		return responseAPI.CustomResponse, nil
+	}
 }
 
 func validateParams() bool {
