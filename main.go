@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
 	"github.com/f3rcho/twitterGo/awsgo"
+	"github.com/f3rcho/twitterGo/models"
 	"github.com/f3rcho/twitterGo/secretmanager"
 )
 
@@ -40,6 +42,18 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		}
 		return res, nil
 	}
+
+	path := strings.Replace(request.PathParameters["twitter"], os.Getenv("UrlPrefix"), "", -1)
+
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("method"), request.HTTPMethod)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("user"), SecretModel.Username)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("password"), SecretModel.Password)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("host"), SecretModel.Host)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("database"), SecretModel.Database)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("jwtsign"), SecretModel.JWTSign)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("body"), request.Body)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
 
 	return res, nil
 }

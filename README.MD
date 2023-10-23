@@ -81,3 +81,6 @@ func main() {
 - In actions, implement API. Name the step. 
 - In config, binary media types, add multipart/form-data and image/jpg
 - Resources, in Any, enable CORS
+
+## Context
+used for global variables
