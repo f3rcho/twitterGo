@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
+	"github.com/f3rcho/twitterGo/awsgo"
 )
 
 func main() {
@@ -15,6 +16,7 @@ func main() {
 
 func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
+	awsgo.InitAWS()
 
 	if !validateParams() {
 		res = &events.APIGatewayProxyResponse{
