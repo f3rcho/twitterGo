@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/f3rcho/twitterGo/jwt"
 	"github.com/f3rcho/twitterGo/models"
+	"github.com/f3rcho/twitterGo/routers"
 )
 
 func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models.ResposeAPI {
@@ -26,7 +27,7 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 	case "POST":
 		switch ctx.Value(models.Key("path")).(string) {
 		case "register":
-			return routers.Regiter(ctx)
+			return routers.Register(ctx)
 		}
 	case "GET":
 		switch ctx.Value(models.Key("path")).(string) {
