@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os/user"
 
+	"github.com/f3rcho/twitterGo/db"
 	"github.com/f3rcho/twitterGo/models"
 )
 
@@ -35,7 +35,7 @@ func Register(ctx context.Context) models.ResposeAPI {
 		return r
 	}
 
-	_, userFound, _, := db.IsUserExists(u.Email)
+	_, userFound, _ := db.IsUserExists(u.Email)
 	if userFound {
 		r.Message = "User already exists"
 		fmt.Println(r.Message)
@@ -43,7 +43,7 @@ func Register(ctx context.Context) models.ResposeAPI {
 	}
 	_, status, err := db.CreateUser(u)
 	if err != nil {
-		r.Message="An error occurred creating user"+err.Error()
+		r.Message = "An error occurred creating user" + err.Error()
 	}
 
 	if !status {
@@ -51,9 +51,8 @@ func Register(ctx context.Context) models.ResposeAPI {
 		fmt.Println(r.Message)
 		return r
 	}
-	r.Status=200
-	r.Message="User created successfully"
+	r.Status = 200
+	r.Message = "User created successfully"
 	fmt.Println(r.Message)
 	return r
 }
-
