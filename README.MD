@@ -84,3 +84,7 @@ func main() {
 
 ## Context
 used for global variables
+
+# Deploy
+$ go build main.go
+$ zip -r main.zip ./main
