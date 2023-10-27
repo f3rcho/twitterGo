@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strings"
 
@@ -49,6 +50,7 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 	}
 
 	path := strings.Replace(request.PathParameters["twitter"], os.Getenv("UrlPrefix"), "", -1)
+	fmt.Println(path + "path here")
 
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("method"), request.HTTPMethod)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("user"), SecretModel.Username)
@@ -60,6 +62,7 @@ func ExecuteLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
 	// check db connection
+	fmt.Println("Checking DB...")
 	err = db.ConnectDB(awsgo.Ctx)
 	if err != nil {
 		res = &events.APIGatewayProxyResponse{

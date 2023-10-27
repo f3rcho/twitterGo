@@ -22,11 +22,18 @@ func ConnectDB(ctx context.Context) error {
 	client, err := mongo.Connect(ctx, clientOpions)
 	if err != nil {
 		fmt.Println(err.Error())
+		return err
+	}
+
+	err = client.Ping(ctx, nil)
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
 	}
 
 	fmt.Println("Connected to MongoDB")
 	MongoClient = client
-	DatabaseName = ctx.Value(models.Key("db")).(string)
+	DatabaseName = ctx.Value(models.Key("database")).(string)
 	return nil
 }
 
