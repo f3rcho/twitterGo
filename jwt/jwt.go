@@ -9,7 +9,7 @@ import (
 )
 
 func GenerateJWT(ctx context.Context, u models.User) (string, error) {
-	jwtSign := ctx.Value(models.Key("jwtSign")).(string)
+	jwtSign := ctx.Value(models.Key("jwtsign")).(string)
 	myKey := []byte(jwtSign)
 
 	payload := jwt.MapClaims{
