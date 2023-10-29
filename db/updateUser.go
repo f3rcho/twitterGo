@@ -20,7 +20,9 @@ func UpdateUser(u models.User, ID string) (bool, error) {
 	if len(u.LastName) > 0 {
 		updatedUser["lastName"] = u.LastName
 	}
-	updatedUser["birthday"] = u.BirthDay
+	if len(u.Email) > 0 {
+		updatedUser["birthDay"] = u.BirthDay
+	}
 	if len(u.Avatar) > 0 {
 		updatedUser["avatar"] = u.Avatar
 	}
