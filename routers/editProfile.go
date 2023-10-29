@@ -21,7 +21,7 @@ func UpdateUser(ctx context.Context, claim models.Claim) models.ResposenAPI {
 	}
 	var status bool
 
-	status, err := db.UpdateUser(u.claim.ID.Hex())
+	status, err = db.UpdateUser(u, claim.ID.Hex())
 	if err != nil {
 		r.Message = "Error updating user" + err.Error()
 		return r
