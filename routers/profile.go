@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/f3rcho/twitterGo/db"
 	"github.com/f3rcho/twitterGo/models"
 )
 
@@ -27,7 +28,7 @@ func GetProfile(request events.APIGatewayProxyRequest) models.ResposeAPI {
 	respJson, err := json.Marshal(profile)
 	if err != nil {
 		r.Status = 500
-		r.Message = "Error formating user data as JSON" + error.Error()
+		r.Message = "Error formating user data as JSON" + err.Error()
 		return r
 	}
 	r.Status = 200
