@@ -9,8 +9,8 @@ import (
 	"github.com/f3rcho/twitterGo/models"
 )
 
-func GetProfile(request events.APIGatewayProxyRequest) models.ResposeAPI {
-	var r models.ResposeAPI
+func GetProfile(request events.APIGatewayProxyRequest) models.ResposenAPI {
+	var r models.ResposenAPI
 	r.Status = 400
 
 	fmt.Println("Getting profile...")

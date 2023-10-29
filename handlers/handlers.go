@@ -10,13 +10,13 @@ import (
 	"github.com/f3rcho/twitterGo/routers"
 )
 
-func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models.ResposeAPI {
+func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models.ResposenAPI {
 	fmt.Println("Processing " + ctx.Value(models.Key("path")).(string) + ">" + ctx.Value(models.Key("method")).(string))
 
-	var r models.ResposeAPI
+	var r models.ResposenAPI
 	r.Status = 400
 
-	isOk, statusCode, msg, _ := validateAuthorization(ctx, request)
+	isOk, statusCode, msg, claim := validateAuthorization(ctx, request)
 	if !isOk {
 		r.Status = statusCode
 		r.Message = msg
@@ -38,7 +38,8 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 		}
 	case "PUT":
 		switch ctx.Value(models.Key("path")).(string) {
-
+		case "profile":
+			return routers.UpdateUser(ctx, claim)
 		}
 	case "DELETE":
 		switch ctx.Value(models.Key("path")).(string) {

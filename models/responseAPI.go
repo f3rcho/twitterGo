@@ -2,7 +2,7 @@ package models
 
 import "github.com/aws/aws-lambda-go/events"
 
-type ResposeAPI struct {
+type ResposenAPI struct {
 	Status         int
 	Message        string
 	CustomResponse *events.APIGatewayProxyResponse

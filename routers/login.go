@@ -12,9 +12,9 @@ import (
 	"github.com/f3rcho/twitterGo/models"
 )
 
-func Login(ctx context.Context) models.ResposeAPI {
+func Login(ctx context.Context) models.ResposenAPI {
 	var u models.User
-	var r models.ResposeAPI
+	var r models.ResposenAPI
 	r.Status = 400
 
 	body := ctx.Value(models.Key("body")).(string)

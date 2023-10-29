@@ -9,9 +9,9 @@ import (
 	"github.com/f3rcho/twitterGo/models"
 )
 
-func Register(ctx context.Context) models.ResposeAPI {
+func Register(ctx context.Context) models.ResposenAPI {
 	var u models.User
-	var r models.ResposeAPI
+	var r models.ResposenAPI
 
 	fmt.Println("Register...")
 
