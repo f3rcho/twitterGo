@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/f3rcho/twitterGo/db"
 	"github.com/f3rcho/twitterGo/models"
 )
 
@@ -25,7 +26,7 @@ func SaveTweet(ctx context.Context, claim models.Claim) models.ResposenAPI {
 		Message: message.Message,
 		Date:    time.Now(),
 	}
-	_, status, err := db.createTweet(tweet)
+	_, status, err := db.CreateTweet(tweet)
 	if err != nil {
 		r.Message = "Error trying to create tweet" + err.Error()
 		return r
