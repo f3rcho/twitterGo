@@ -48,7 +48,7 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 	case "DELETE":
 		switch ctx.Value(models.Key("path")).(string) {
 		case "tweet":
-			return routers.DeleteTweet(ctx, claim)
+			return routers.DeleteTweet(request, claim)
 		}
 	}
 
