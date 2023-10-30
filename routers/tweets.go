@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/f3rcho/twitterGo/db"
 	"github.com/f3rcho/twitterGo/models"
 )
 
