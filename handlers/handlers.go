@@ -43,6 +43,10 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 			return routers.GetProfile(request)
 		case "tweets":
 			return routers.GetTweets(request)
+		case "avatar":
+			return routers.GetImage(ctx, "A", request)
+		case "banner":
+			return routers.GetImage(ctx, "B", request)
 		}
 	case "PUT":
 		switch ctx.Value(models.Key("path")).(string) {
