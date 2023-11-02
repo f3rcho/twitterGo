@@ -3,7 +3,6 @@ package routers
 import (
 	"bytes"
 	"context"
-	"encoding/base64"
 	"io"
 	"mime"
 	"mime/multipart"
@@ -35,7 +34,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 	bucket := aws.String(ctx.Value(models.Key("bucketName")).(string))
 	switch uploadType {
 	case "A":
-		filename = "avatars/" + IDUser + ".jpg"
+		filename = "avatars/" + IDUser + ".jpeg"
 		user.Avatar = filename
 	case "B":
 		filename = "banners/" + IDUser + ".jpg"
@@ -45,19 +44,19 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 	mediaType, params, err := mime.ParseMediaType(request.Headers["Content-Type"])
 	if err != nil {
 		r.Status = 500
-		r.Message = "Error al parsear el tipo de archivo"
+		r.Message = "Error parsing media type"
 		return r
 	}
 
 	if strings.HasPrefix(mediaType, "multipart/") {
-		body, err := base64.StdEncoding.DecodeString(request.Body)
-		if err != nil {
-			r.Status = 500
-			r.Message = "Error decoding the archive" + err.Error()
-			return r
-		}
-
-		mp := multipart.NewReader(bytes.NewReader(body), params["boundary"])
+		// body, err := base64.StdEncoding.DecodeString(request.Body)
+		// if err != nil {
+		// 	r.Status = 500
+		// 	r.Message = "Error decoding the archive. " + err.Error()
+		// 	return r
+		// }
+		//TODO: check why the image does not work properly
+		mp := multipart.NewReader(bytes.NewReader([]byte(request.Body)), params["boundary"])
 		p, err := mp.NextPart()
 		if err != nil && err != io.EOF {
 			r.Status = 500
