@@ -13,7 +13,7 @@ func GetRelation(r models.Relation) bool {
 	col := db.Collection("relations")
 
 	condition := bson.M{
-		"userid":         r.UsuerId,
+		"userId":         r.UsuerId,
 		"userrelationid": r.UserRelationId,
 	}
 
