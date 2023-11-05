@@ -45,6 +45,8 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 			return routers.GetProfile(request)
 		case "users":
 			return routers.GetUsers(request, claim)
+		case "tweetsfollowers":
+			return routers.GetTweetsFollowers(request, claim)
 		case "tweets":
 			return routers.GetTweets(request)
 		case "avatar":
