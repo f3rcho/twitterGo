@@ -8,8 +8,8 @@ import (
 
 type RetriveTweetsFollowers struct {
 	ID             primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
-	UserId         string             `bson:"userId" json:"userId,omitempty"`
-	UserRelationId string             `bson:"userRelationId" json:"userRelationId,omitempty"`
+	UserId         string             `bson:"userId" json:"userid,omitempty"`
+	UserRelationId string             `bson:"userrelationid" json:"userrelationid"`
 	Tweet          struct {
 		Message string    `bson:"message" json:"message,omitempty"`
 		Date    time.Time `bson:"date" json:"date,omitempty"`
